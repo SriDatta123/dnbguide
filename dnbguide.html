@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Page</title>
+    <style>
+        .glow {
+  font-size: 80px;
+  color: #fff;
+  text-align: center;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #000fe6, 0 0 40px #000fe6, 0 0 50px #000fe6, 0 0 60px #000fe6, 0 0 70px #000fe6;
+  }
+  
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #4551fd, 0 0 40px #4551fd, 0 0 50px #4551fd, 0 0 60px #4551fd, 0 0 70px #4551fd, 0 0 80px #4551fd;
+  }
+}
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+
+            background: black;
+    color: white;
+        }
+
+        p {
+            font-size: 28px;
+            font-family: monospace;
+        }
+
+        .yesbutton {
+            background-color: #2faa04;
+            border: none;
+            color: white;
+            padding: 9px 33px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 6px;
+        }
+
+        .nobutton {
+            background-color: #bb0707;
+            border: none;
+            color: white;
+            padding: 9px 33px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 6px;
+        }
+
+        button:hover {
+            box-shadow: -3px 6px 13px 1px rgba(255, 255, 255, 0.692), -1px 0px 0px 0 rgba(6, 241, 14, 0);
+            border-radius: 7px;
+        }
+
+        button {
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            /* Add shadows to create the "card" effect */
+            box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.616);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Interactive Page</h1>
+    <div class="card glow">
+        <p id="question">Is download folder empty?</p>
+        <button class="yesbutton" id="b1" onclick="handleResponse(true)">Yes</button>
+        <button class="nobutton" id="b2" onclick="handleResponse(false)">No</button>
+    </div>
+    <script>
+        let downloadfolderempty = false;
+        let downloadfolderemptyqasked = false;
+        let sourcefolderemptyqasked = false;
+        let sourcefolderempty = false;
+        let monthlyupdateqasked = false;
+        let monthlyupdatedone = false
+        function handleResponse(response) {
+            if (downloadfolderemptyqasked && !sourcefolderemptyqasked) {
+                sourcefolderemptyqasked = true;
+                sourcefolderempty = response;
+                if (sourcefolderempty) {
+                    document.getElementById('b1').style.display = 'none';
+                    document.getElementById('b2').style.display = 'none';
+                    document.getElementById('question').innerText = "Move download files to source folder ";
+                }
+                else {
+
+                    document.getElementById('b1').style.display = 'none';
+                    document.getElementById('b2').style.display = 'none';
+                    document.getElementById('question').innerText = "Move source folder files to processed if monthly update is done for the files";
+                }
+            }
+            if (!downloadfolderemptyqasked) {
+                downloadfolderemptyqasked = true;
+                downloadfolderempty = response;
+                if (downloadfolderempty) {
+                    document.getElementById('b1').style.display = 'none';
+                    document.getElementById('b2').style.display = 'none';
+                    document.getElementById('question').innerText = "Proceed to download";
+                }
+                if (!sourcefolderemptyqasked && !downloadfolderempty) {
+                    document.getElementById('question').innerText = "Is source folder empty?";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
